@@ -81,51 +81,25 @@ install_sonarqube() {
   echo " done"
 }
 
-install_sonarts_plugin() {
+install_sonar_rust_plugin() {
   local BUILD_DIR=${1}
   local CACHE_DIR=${2}
   
-  SONARTS_DIST_JAR="sonar-typescript-plugin-1.6.0.2388.jar"
-  SONARTS_URL="https://sonarsource.bintray.com/Distribution/sonar-typescript-plugin/${SONARTS_DIST_JAR}"
+  SONAR_RUST_DIST_JAR="community-rust-plugin-0.2.0.jar"
+  SONAR_RUST_URL="https://github.com/elegoff/sonar-rust/releases/download/v0.2.0/${SONAR_RUST_DIST_JAR}"
 
   echo -n "-----> Downloading SonarTS....."
-  curl --silent --location ${SONARTS_URL} > ${CACHE_DIR}/${SONARTS_DIST_JAR}
+  curl --silent --location ${SONAR_RUST_URL} > ${CACHE_DIR}/${SONAR_RUST_DIST_JAR}
   echo " done"
 
   echo -n "-----> Installing SonarTS....."
-  cp ${CACHE_DIR}/${SONARTS_DIST_JAR} ${SONAR_HOME}/extensions/plugins/${SONARTS_DIST_JAR}
-  chmod +rwx ${SONAR_HOME}/extensions/plugins/${SONARTS_DIST_JAR}
+  cp ${CACHE_DIR}/${SONAR_RUST_DIST_JAR} ${SONAR_HOME}/extensions/plugins/${SONAR_RUST_DIST_JAR}
+  chmod +rwx ${SONAR_HOME}/extensions/plugins/${SONAR_RUST_DIST_JAR}
   echo " done"
 }
-
-install_nodejs() {
-  local BUILD_DIR=${1}
-  local CACHE_DIR=${2}
-
-  NODE_DIST_FILE="node-v8.10.0-linux-x64.tar.xz"
-  NODE_DIST_URL="https://nodejs.org/dist/v8.10.0/${NODE_DIST_FILE}"
-
-  if [ ! -f ${CACHE_DIR}/${NODE_DIST_FILE} ]; then
-    echo -n "-----> Downloading NodeJS....."
-    curl --silent --location ${NODE_DIST_URL} > ${CACHE_DIR}/${NODE_DIST_FILE}
-    echo " done"
-  fi
-
-  echo -n "-----> Installing NodeJS....."
-
-  tar xf ${CACHE_DIR}/${NODE_DIST_FILE} -C ${BUILD_DIR}
-
-  ln -s ${BUILD_DIR}/${NODE_DIST_FILE}/bin/node ${BUILD_DIR}/.heroku/bin/node
-  ln -s ${BUILD_DIR}/${NODE_DIST_FILE}/bin/npm ${BUILD_DIR}/.heroku/bin/npm
-  ln -s ${BUILD_DIR}/${NODE_DIST_FILE}/bin/npx ${BUILD_DIR}/.heroku/bin/npx
-
-  echo " done"
-}
-
 
 install_jdk ${BUILD_DIR} ${CACHE_DIR}
-install_nodejs ${BUILD_DIR} ${CACHE_DIR}
 install_sonarqube ${BUILD_DIR} ${CACHE_DIR}
-#install_sonarts_plugin ${BUILD_DIR} ${CACHE_DIR}
+install_sonar_rust_plugin ${BUILD_DIR} ${CACHE_DIR}
 
 
