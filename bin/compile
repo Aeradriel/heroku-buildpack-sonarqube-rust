@@ -10,8 +10,7 @@ CACHE_DIR=$2
 
 BP_DIR=`cd $(dirname $0); cd ..; pwd`
 
-SONAR_VERSION="7.4"
-ANT_VERSION="1.9.9"
+SONAR_VERSION="10.0.0.68432"
 SONAR_HOME=${BUILD_DIR}/sonarqube
 
 echo ${SONAR_HOME};
@@ -88,11 +87,11 @@ install_sonar_rust_plugin() {
   SONAR_RUST_DIST_JAR="community-rust-plugin-0.2.0.jar"
   SONAR_RUST_URL="https://github.com/elegoff/sonar-rust/releases/download/v0.2.0/${SONAR_RUST_DIST_JAR}"
 
-  echo -n "-----> Downloading SonarTS....."
+  echo -n "-----> Downloading Rust community plugin....."
   curl --silent --location ${SONAR_RUST_URL} > ${CACHE_DIR}/${SONAR_RUST_DIST_JAR}
   echo " done"
 
-  echo -n "-----> Installing SonarTS....."
+  echo -n "-----> Installing Rust community plugin....."
   cp ${CACHE_DIR}/${SONAR_RUST_DIST_JAR} ${SONAR_HOME}/extensions/plugins/${SONAR_RUST_DIST_JAR}
   chmod +rwx ${SONAR_HOME}/extensions/plugins/${SONAR_RUST_DIST_JAR}
   echo " done"
